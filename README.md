@@ -37,7 +37,7 @@ Completely exclude a slice from final result | `veto_slice(slc_idx)`
 Undo exclusion of a slice from final result | `unveto_slice(slc_idx)`
 Choose a fit model for final result | `change_fit_model("<model>")`
 Choose a user-defined function to model the final result | `user_def_model(function)`
- |
+ 
  
 Where:
    * `slc_idx` is the index of the target slice, displayed in red at the top-left of the projections.
