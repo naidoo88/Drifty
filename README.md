@@ -46,6 +46,6 @@ Where:
 ## Getting Started
 The tool has been designed such that even with minimal Python experience, a user will be able to quickly set up and perform these kinematic corrections.   Most of the code exists "under the hood" in two files ([SimKinCorr.py](./SimKinCorr.py), [utils.py](./utils.py)) which need to be imported into your notebook
 
-CalcCorr_Tutorial.ipynb contains a working example of how to use the class.  This can be used to explore the functionality, or used as a template for performing an analysis.  For the JLab user, the data required for this tutorial can be downloaded from: `/work/clas12/pnaidoo/CalcCorr/tutorial_data.root`
+[CalcCorr_Tutorial.ipynb](./CalcCorr_Tutorial.ipynb) contains a working example of how to use the class.  This can be used to explore the functionality, or used as a template for performing an analysis.  For the JLab user, the data required for this tutorial can be downloaded from: `/work/clas12/pnaidoo/CalcCorr/tutorial_data.root`
 
 [GettingSetUp.md](./GettingSetUp.md) exists for the purposes of those unfamiliar with Python or Jupyter. It contains all the steps required to set up a virtual environment with the packages required by the class and offers an explanation on how to run simkincorr_tutorial.ipynb in Jupyter-Notebook.
