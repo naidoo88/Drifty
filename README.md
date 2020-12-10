@@ -1,8 +1,8 @@
-# CalcCorrections
+# Drifty
 
-CalcCorrections is a python class. It is a tool for the purposes of quickly and easily performing simulation-driven kinematic corrections to correct for any systematic drift introduced by the reconstruction of data.
+Drifty is a tool created for the purposes of quickly and easily performing simulation-driven kinematic corrections to correct for any systematic drift introduced by the reconstruction of data.
 
-It has been designed to work as an interactive "package" when used within Jupyter Notebook or Jupyter Lab, which allow python scripts to be ran in your browser and serves as a shortcut to a GUI.  
+It is a combination of two python classes which have been designed to work as an interactive "package" when used within Jupyter Notebook or Jupyter Lab, which allow python scripts to be ran in your browser and serves as a shortcut to a GUI.  
 
 ## Approach
 Kinematic corrections are carried out by determining the relationship between a kinematic variable, and the 'drift' which is observed in simulated data when comparing what was generated with what is reconstructed.
