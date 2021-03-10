@@ -65,9 +65,10 @@ Assuming no barriers have been set up by your sys-admins: **Yes!**
          If you are using a shared machine, then as a courtesy to others who may want to use   Jupyter, we can choose something other than the default (8888).  
    
    3. On your local machine: forward the port you used above:  
-      `ssh -NL 8887:localhost:8887 user@remote-host`  
+      `ssh -fNL 8887:localhost:8887 user@remote-host`  
          * `N` indicates that we do not actually want to access the remote  
          * `L` is the command for port-forwarding
+         * `f` tells ssh to run in the background
 
    4. On your local machine:  open your browser of choice and paste in the link you were provided.
 
