@@ -1,5 +1,7 @@
+from re import A
 import numpy as np
 import matplotlib.pylab as plt
+import pylandau
 #import boost_histogram as bh
 
 ###################################################
@@ -80,6 +82,9 @@ def gaussian(x, amp, mean, sigma):
 def gaussian_offset(x, amp, mean, sigma, const):
     '''A Gaussian with a constant offset'''
     return amp * np.exp( - ((x - mean) / sigma) ** 2) + const
+
+def landau_offset(x, amp, mean, sigma, const):
+    return pylandau.landau(x, A=amp, mpv=mean, eta=sigma) + const
     
 def linear(x, m, c):
     '''Simple linear function'''
