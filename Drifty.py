@@ -658,6 +658,12 @@ class CalcCorrections:
         self.plot_slice(self.slices[slc_idx])
         self.fit_means()
         self.plot_means()
+        
+#adding a function to save the current plot in a directory specified by absolute path
+
+    def save_plot(self, func_str):
+        plt.savefig(func_str)
+
 
 
     
