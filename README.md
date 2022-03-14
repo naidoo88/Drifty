@@ -43,7 +43,7 @@ Where:
    * `slc_idx` is the index of the target slice, displayed in red at the top-left of the projections.
    * `change_fit_model()` accepts `"linear"`, `"pol2"`, `"pol3"`, `"pol4"`.
 
-The user can save their full figure in its current state using the 'save_fig('/path/to/save/spot/')' function - the argument need only be the path in single quotes. 
+The user can save their full figure in its current state using the 'save_plot('/path/to/save/spot/')' function - the argument need only be the path in single quotes. 
 
 ## Getting Started
 The tool has been designed such that even with minimal Python experience, a user will be able to quickly set up and perform these kinematic corrections.   Most of the code exists "under the hood" in two files ([SimKinCorr.py](./SimKinCorr.py), [utils.py](./utils.py)) which need to be imported into your notebook
