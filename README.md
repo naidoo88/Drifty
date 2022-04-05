@@ -1,6 +1,7 @@
 # Drifty
 
 Drifty is a tool created for the purposes of quickly and easily performing simulation-driven kinematic corrections to correct for any systematic drift introduced by the reconstruction of data.
+It is fairly generic in it's design, and can be easily used for other forms of systematic corrections and calibrations.
 
 It is a combination of two python classes which have been designed to work as an interactive "package" when used within Jupyter Notebook or Jupyter Lab, which allow python scripts to be ran in your browser and serves as a shortcut to a GUI.  
 
@@ -42,6 +43,8 @@ Choose a user-defined function to model the final result | `user_def_model(funct
 Where:
    * `slc_idx` is the index of the target slice, displayed in red at the top-left of the projections.
    * `change_fit_model()` accepts `"linear"`, `"pol2"`, `"pol3"`, `"pol4"`.
+
+The user can save their full figure in its current state using the 'save_plot('/path/to/save/spot/')' function - the argument need only be the path in single quotes. 
 
 ## Getting Started
 The tool has been designed such that even with minimal Python experience, a user will be able to quickly set up and perform these kinematic corrections.   Most of the code exists "under the hood" in two files ([SimKinCorr.py](./SimKinCorr.py), [utils.py](./utils.py)) which need to be imported into your notebook

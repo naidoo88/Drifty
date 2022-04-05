@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pylab as plt
 import boost_histogram as bh
+from lmfit import Model
 from scipy.optimize import curve_fit
 import functools as ft
 import copy
@@ -481,14 +482,16 @@ class CalcCorrections:
             x_low,x_high = (min(min(slc.hist.axes[0])), 
                 max(max(slc.hist.axes[0])))
 
+        x_fitplot_vals = np.linspace(x_low, x_high, 300)
+        
         utl.plot1D_bh(self.output_ax[slc.N+2], slc.hist)
 
-        x_fitplot_vals = np.linspace(x_low, x_high, 300)
         self.output_ax[slc.N+2].plot(
             x_fitplot_vals, 
-            utl.gaussian_offset(x_fitplot_vals, *fitvals), 
+            slc.fit_model(x_fitplot_vals, *fitvals), 
             label='fit', 
             c='red')
+
         self.output_ax[slc.N+2].text(0.1, 0.75, str(slc.N), 
             color='red', 
             ha='center', 
@@ -650,6 +653,18 @@ class CalcCorrections:
         self.fit_means()
         self.plot_means()
 
+    def set_slice_model(self, slc_idx, model):
+        self.slices[slc_idx].set_fit_model(model)
+        self.plot_slice(self.slices[slc_idx])
+        self.fit_means()
+        self.plot_means()
+        
+#adding a function to save the current plot in a directory specified by absolute path
+
+    def save_plot(self, func_str):
+        plt.savefig(func_str)
+
+
 
     
 class Slice:
@@ -671,9 +686,11 @@ class Slice:
         self.hist = proj # 1D histogram - projected slice
         self.lims = lims # bin range of each slice for projections
         self.centre = centre # bin centres for plotting
+        self.fit_result = None #holds results of lmfit fitting
+        self.fit_model = utl.gaussian_offset # model used to fit the slice
         self.fit_range = None # range withthin which to fit
-        self.fit_vals = None # fit results
-        self.fit_errs = None # fit errors
+        self.fit_vals = {} # fit results
+        self.fit_errs = {} # fit errors
         self.fit_cov = None # fit cov
         self.fit_guesses = None # initial guesses for fit 
         self.chisqdof = None # tuple containing (X2, dof) from fit result
@@ -758,43 +775,51 @@ class Slice:
         bin_err = np.sqrt(hist.view())
         # set zero values (empty bins) to one to avoid zero-division in chi-sq
         bin_err[bin_err==0] = 1 
-        p0=[
-            self.fit_guesses['amp'], 
-            self.fit_guesses['mean'], 
-            self.fit_guesses['sigma'], 
-            self.fit_guesses['const'] 
-            ]
-        popt, pcov = curve_fit(
-            utl.gaussian_offset, 
-            bin_centres, 
-            bin_vals, 
-            p0=p0, 
-            sigma = bin_err)
-            
-        self.fit_vals = {
-            'amp': popt[0],
-            'mean': popt[1],
-            'sigma': popt[2],
-            'const': popt[3]
-        }
-        #represents the actual fit errors (see curv_fit docs)
-        perr = np.sqrt(np.diag(pcov)) 
-        self.fit_errs = {
-            'amp': perr[0],
-            'mean': perr[1],
-            'sigma': perr[2],
-            'const': perr[3]
-        }
-        self.fit_cov = pcov
-        
-        self.chisqdof = utl.calc_chisq(
-            f = utl.gaussian_offset, 
-            fit_params = popt, 
-            x = bin_centres, 
-            y_obs = bin_vals, 
-            sigma = bin_err)
-        
+
+        model = Model(self.fit_model)
+
+        params = model.make_params(
+            amp = self.fit_guesses['amp'],
+            mean = self.fit_guesses['mean'], 
+            sigma = self.fit_guesses['sigma'], 
+            const = self.fit_guesses['const'] 
+        )
+
+        fit_result = model.fit(
+            data = bin_vals,
+            params = params, 
+            x=bin_centres,
+            weights=bin_err
+        )
+        self.fit_result = fit_result
+
+        #Extract fit results
+        for key in fit_result.params:
+            self.fit_vals[key] = fit_result.params[key].value
+            self.fit_errs[key] = fit_result.params[key].stderr
+
+        self.chisqdof = (
+            fit_result.chisqr,
+            fit_result.nfree
+        )
+
     
+    def set_fit_model(self, model):
+        '''
+        Set the fit model used for extracting mean/stderr of slice.
+        '''
+        valid_models = {
+            'gaus_const': utl.gaussian_offset, 
+            'landau_const': utl.landau_offset
+        }
+        try: 
+            self.fit_model = valid_models[model]
+        except KeyError:
+            print("Accepted models are: gaus_const and laundau_const.")
+            raise KeyError
+        self.fit_estimates()
+        self.fit_slice()
+
     def fit_limits(self, fit_lim):
         '''
         Set fit limits and reavaluate slice.

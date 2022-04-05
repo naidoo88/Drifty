@@ -1,5 +1,7 @@
+from re import A
 import numpy as np
 import matplotlib.pylab as plt
+import pylandau
 #import boost_histogram as bh
 
 ###################################################
@@ -73,13 +75,16 @@ def plot1D_bh(ax, h, color="", filled=True, alphafill=0.6, lparams={}, fparams={
 ###################################################
 # Define a few functions for the purpose of fitting
 
-def gaussian(x, A, mu, sig):
+def gaussian(x, amp, mean, sigma):
     '''A Standard Gaussian'''
-    return A * np.exp( - ((x - mu) / sig) ** 2)
+    return amp * np.exp( - ((x - mean) / sigma) ** 2)
 
-def gaussian_offset(x, A, mu, sig, const):
+def gaussian_offset(x, amp, mean, sigma, const):
     '''A Gaussian with a constant offset'''
-    return A * np.exp( - ((x - mu) / sig) ** 2) + const
+    return amp * np.exp( - ((x - mean) / sigma) ** 2) + const
+
+def landau_offset(x, amp, mean, sigma, const):
+    return pylandau.landau(x, A=amp, mpv=mean, eta=sigma) + const
     
 def linear(x, m, c):
     '''Simple linear function'''
