@@ -1,6 +1,7 @@
 # Drifty
 
 Drifty is a tool created for the purposes of quickly and easily performing simulation-driven kinematic corrections to correct for any systematic drift introduced by the reconstruction of data.
+It is fairly generic in it's design, and can be easily used for other forms of systematic corrections and calibrations.
 
 It is a combination of two python classes which have been designed to work as an interactive "package" when used within Jupyter Notebook or Jupyter Lab, which allow python scripts to be ran in your browser and serves as a shortcut to a GUI.  
 
