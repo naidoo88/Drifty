@@ -49,7 +49,7 @@ With the above steps completed, you should have everything you need to run the t
 
 With your virtual environment active, run:  `jupyter-notebook`.  This should automatically take you to a browser tab, showing you the directory of where you launched jupyter-notebook from.  
 
-Click on `simkincorr_tutorial.ipynb` and you're off to the races!
+Click on `Drifty_Tutorial.ipynb` and you're off to the races!
 
 **NB:** The line: `%matplotlib notebook` in the first code cell (under the imports) is important! Without it, the plots will not interactively update when you tweak them.
 
@@ -137,7 +137,7 @@ If this is not happening, we can be more explicit.  We do this by adding the our
    3. Add the virtual environment to the list of installed Jupyter kernels:  
       `python -m ipykernel install --user --name my-env --display-name "Python3(my-env)"`  
       where `--name` is what you named your virtual environment, and `--display-name` is what it will be called in the Jupyter GUI.
-   4. Restart Jupyter and open `simkincorr_tutorial.ipynb`
+   4. Restart Jupyter and open `Drifty_Tutorial.ipynb`
    5. From the menu at the top: Kernel >> Change kernel >> Python3(my-env)
 
 
